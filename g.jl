@@ -34,3 +34,4 @@ Distributions.rand(D::SetCategorical, n::Int) = D.elements[rand(D.distr, n)]
 function Distributions.pdf(D::SetCategorical, x)
     sum(e == x ? w : 0.0 for (e,w) in zip(D.elements, D.distr.p))
 end
+
