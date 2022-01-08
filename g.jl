@@ -2,6 +2,9 @@ using Graphs
 using LinearAlgebra
 using Distributions
 
+import IterTools: subsets
+import Base.Iterators: product
+
 Base.Dict{Symbol,V}(a::NamedTuple) where V =
     Dict{Symbol,V}(n=>v for (n,v) in zip(keys(a), values(a)))
 
