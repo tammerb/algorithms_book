@@ -1,3 +1,5 @@
+include("ch2.jl")
+
 #= Algorithm 3.1. An implementation
 of the factor product, which constructs the factor representing the
 joint distribution of two smaller factors ϕ and ψ. If we want to compute
@@ -85,4 +87,33 @@ function infer(M::ExactInference, bn, query, evidence)
         ϕ = marginalize(ϕ, name)
     end
     return normalize!(ϕ)
+end
+
+#=
+Algorithm 3.5. An implementation of the sum-product variable
+elimination algorithm, which takes
+in a Bayesian network bn, a list
+of query variables query, and evidence evidence. The variables are
+processed in the order given by
+ordering.
+=#
+
+struct VariableElimination
+    ordering # array of variable indices
+end
+function infer(M::VariableElimination, bn, query, evidence)
+    Φ = [condition(ϕ, evidence) for ϕ in bn.factors]
+    for i in M.ordering
+        name = bn.vars[i].name
+        if name ∉ query
+            inds = findall(ϕ->in_scope(name, ϕ), Φ)
+            if !isempty(inds)
+                ϕ = prod(Φ[inds])
+                deleteat!(Φ, inds)
+                ϕ = marginalize(ϕ, name)
+                push!(Φ, ϕ)
+            end
+        end
+    end
+    return normalize!(prod(Φ))
 end

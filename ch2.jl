@@ -1,3 +1,5 @@
+include("g.jl")
+
 # A variable is given a name (symbol) and int
 struct Variable
     name::Symbol
