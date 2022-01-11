@@ -136,7 +136,7 @@ function Base.rand(ϕ::Factor)
 end
 function Base.rand(bn::BayesianNetwork)
     a = Assignment()
-    for i in topological_sort(bn.graph)
+    for i in topological_sort_by_dfs(bn.graph)
         name, ϕ = bn.vars[i].name, bn.factors[i]
         a[name] = rand(condition(ϕ, a))[name]
     end
