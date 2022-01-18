@@ -1,3 +1,6 @@
+include("ch3.jl")
+
+
 #=
 Algorithm 4.1. A function for extracting the statistics, or counts,
 from a discrete data set D, assuming a Bayesian network with variables vars and structure G. The
