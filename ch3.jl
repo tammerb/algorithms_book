@@ -191,7 +191,7 @@ struct LikelihoodWeightedSampling
 end
 function infer(M::LikelihoodWeightedSampling, bn, query, evidence)
     table = FactorTable()
-    ordering = topological_sort(bn.graph)
+    ordering = topological_sort_by_dfs(bn.graph)
     for i in 1:(M.m)
         a, w = Assignment(), 1.0
         for j in ordering
